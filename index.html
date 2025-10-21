@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Interaktif Reliabilitas & Validitas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals & Calm Blue -->
+    <!-- Application Structure Plan: Aplikasi ini dirancang dengan struktur tematik yang berfokus pada eksplorasi konsep, bukan mengikuti urutan bab laporan. Strukturnya adalah sebagai berikut: 1. Pengantar Singkat. 2. Perbandingan 'side-by-side' antara Reliabilitas dan Validitas sebagai pilar utama. 3. Penjelasan mendalam tentang 'Jenis-Jenis' menggunakan kartu interaktif. 4. Visualisasi interaktif 'Hubungan' keduanya menggunakan metafora target untuk pemahaman yang lebih dalam. 5. 'Prosedur Uji' yang divisualisasikan sebagai alur langkah-demi-langkah. 6. Kesimpulan dan Implikasi. Struktur ini dipilih untuk memfasilitasi pembelajaran non-linear, memungkinkan pengguna menjelajahi konsep yang paling relevan bagi mereka terlebih dahulu dan memahami hubungan antar konsep secara visual, yang lebih efektif daripada teks biasa. -->
+    <!-- Visualization & Content Choices: 1. Hubungan R&V -> Goal: Compare Relationships -> Viz: Empat chart scatter plot (metafora target) -> Interaction: Tombol untuk menyorot setiap skenario (misalnya, Reliabel tapi tidak Valid), yang akan mengubah gaya visual chart dan teks penjelasan. Justification: Visualisasi ini secara intuitif menjelaskan hubungan abstrak antara dua konsep. Library: Chart.js. 2. Prosedur Uji -> Goal: Organize -> Viz: Diagram alur langkah-demi-langkah -> Interaction: Klik pada setiap langkah untuk menampilkan detail. Justification: Mengubah daftar prosedural menjadi panduan visual yang mudah diikuti. Method: HTML/Tailwind. 3. Jenis-jenis R&V -> Goal: Organize -> Viz: Kartu-kartu yang dapat diklik. -> Interaction: Klik untuk membuka dan membaca detail setiap jenis. Justification: Menyajikan informasi secara ringkas dan terstruktur tanpa membanjiri pengguna. Method: HTML/JS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #3d405b;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #3d5a80;
+            border-bottom-color: #3d5a80;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        .tab-button.active {
+            background-color: #3d5a80;
+            color: #ffffff;
+        }
+        .step-item.active .step-circle {
+            background-color: #3d5a80;
+            color: #ffffff;
+            border-color: #3d5a80;
+        }
+        .step-item.active .step-content {
+            display: block;
+        }
+        .step-content {
+            display: none;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-gray-800">Kualitas Instrumen Penelitian</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#konsep" class="nav-link font-medium pb-1">Konsep Utama</a>
+                <a href="#jenis" class="nav-link font-medium pb-1">Jenis</a>
+                <a href="#hubungan" class="nav-link font-medium pb-1">Hubungan</a>
+                <a href="#prosedur" class="nav-link font-medium pb-1">Prosedur</a>
+                <a href="#implikasi" class="nav-link font-medium pb-1">Implikasi</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-gray-700 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+             <a href="#konsep" class="block py-2 text-center text-gray-700 hover:text-blue-600">Konsep Utama</a>
+             <a href="#jenis" class="block py-2 text-center text-gray-700 hover:text-blue-600">Jenis</a>
+             <a href="#hubungan" class="block py-2 text-center text-gray-700 hover:text-blue-600">Hubungan</a>
+             <a href="#prosedur" class="block py-2 text-center text-gray-700 hover:text-blue-600">Prosedur</a>
+             <a href="#implikasi" class="block py-2 text-center text-gray-700 hover:text-blue-600">Implikasi</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="pengantar" class="text-center mb-20">
+            <h2 class="text-4xl font-bold mb-4 text-[#3d405b]">Memastikan Kualitas Data Penelitian</h2>
+            <p class="text-lg max-w-3xl mx-auto text-gray-600">
+                Kualitas sebuah penelitian bergantung pada alat ukurnya. Aplikasi ini akan memandu Anda memahami dua pilar utama kualitas instrumen: <strong>Reliabilitas</strong> (konsistensi) dan <strong>Validitas</strong> (ketepatan). Tanpa keduanya, data yang dihasilkan bisa bias dan tidak dapat dipercaya.
+            </p>
+        </section>
+
+        <section id="konsep" class="mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">Dua Pilar Utama: Reliabilitas vs Validitas</h2>
+                <p class="mt-2 text-gray-600 max-w-2xl mx-auto">Pahami perbedaan mendasar antara konsistensi hasil (Reliabilitas) dan ketepatan pengukuran (Validitas). Keduanya adalah fondasi untuk instrumen penelitian yang kuat.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="card p-8 text-center border-t-4 border-[#3d5a80]">
+                    <h3 class="text-2xl font-semibold mb-3">Reliabilitas</h3>
+                    <p class="text-gray-600">Menilai <strong>konsistensi</strong> hasil pengukuran. Apakah instrumen memberikan hasil yang serupa jika digunakan berulang kali pada subjek dan kondisi yang sama? Ini tentang stabilitas dan keandalan.</p>
+                </div>
+                <div class="card p-8 text-center border-t-4 border-[#81b29a]">
+                    <h3 class="text-2xl font-semibold mb-3">Validitas</h3>
+                    <p class="text-gray-600">Menilai <strong>ketepatan</strong> alat ukur terhadap konsep yang diukur. Apakah instrumen benar-benar mengukur apa yang seharusnya diukur? Ini tentang akurasi dan kebenaran.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="jenis" class="mb-20">
+            <div class="text-center mb-12">
+                 <h2 class="text-3xl font-bold">Menjelajahi Jenis-Jenis Reliabilitas & Validitas</h2>
+                 <p class="mt-2 text-gray-600 max-w-2xl mx-auto">Setiap konsep memiliki beberapa jenis yang mengukur aspek yang berbeda. Gunakan tombol di bawah untuk beralih dan menjelajahi setiap jenis secara detail.</p>
+            </div>
+
+            <div class="flex justify-center mb-8">
+                <button id="btn-reliabilitas" class="tab-button active py-2 px-6 rounded-l-lg bg-gray-200 text-gray-700 font-semibold">Reliabilitas</button>
+                <button id="btn-validitas" class="tab-button py-2 px-6 rounded-r-lg bg-gray-200 text-gray-700 font-semibold">Validitas</button>
+            </div>
+
+            <div id="content-reliabilitas">
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="card p-6">
+                        <h4 class="font-bold text-lg mb-2 text-[#3d5a80]">Test-Retest</h4>
+                        <p class="text-sm text-gray-600">Konsistensi hasil antar waktu. Mengukur stabilitas instrumen dengan memberikannya kepada responden yang sama pada dua waktu yang berbeda.</p>
+                    </div>
+                    <div class="card p-6">
+                        <h4 class="font-bold text-lg mb-2 text-[#3d5a80]">Parallel Forms</h4>
+                        <p class="text-sm text-gray-600">Konsistensi antar versi instrumen. Mengukur kesetaraan antara dua versi instrumen yang berbeda namun dirancang untuk mengukur konstruk yang sama.</p>
+                    </div>
+                    <div class="card p-6">
+                        <h4 class="font-bold text-lg mb-2 text-[#3d5a80]">Internal Consistency</h4>
+                        <p class="text-sm text-gray-600">Konsistensi antar butir pertanyaan dalam satu instrumen. Umumnya diukur dengan Cronbach's Alpha.</p>
+                    </div>
+                    <div class="card p-6">
+                        <h4 class="font-bold text-lg mb-2 text-[#3d5a80]">Inter-Rater</h4>
+                        <p class="text-sm text-gray-600">Konsistensi antar penilai. Mengukur tingkat kesepakatan antara dua atau lebih penilai dalam penelitian observasional.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="content-validitas" class="hidden">
+                 <div class="grid md:grid-cols-3 gap-6">
+                    <div class="card p-6">
+                        <h4 class="font-bold text-lg mb-2 text-[#81b29a]">Isi (Content)</h4>
+                        <p class="text-sm text-gray-600">Kesesuaian isi instrumen dengan konstruk yang diukur. Biasanya dinilai melalui penilaian ahli (*expert judgment*).</p>
+                    </div>
+                    <div class="card p-6">
+                        <h4 class="font-bold text-lg mb-2 text-[#81b29a]">Konstruk (Construct)</h4>
+                        <p class="text-sm text-gray-600">Kecocokan hasil pengukuran dengan teori yang mendasarinya. Sering diuji menggunakan Analisis Faktor.</p>
+                    </div>
+                    <div class="card p-6">
+                        <h4 class="font-bold text-lg mb-2 text-[#81b29a]">Kriteria (Criterion)</h4>
+                        <p class="text-sm text-gray-600">Hubungan hasil instrumen dengan ukuran standar eksternal. Mencakup validitas prediktif dan konkuren.</p>
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+        <section id="hubungan" class="mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">Visualisasi Hubungan Keduanya</h2>
+                <p class="mt-2 text-gray-600 max-w-2xl mx-auto">Reliabilitas adalah syarat perlu, tetapi tidak cukup untuk validitas. Gunakan metafora target panahan ini untuk memahami empat kemungkinan hubungan di antara keduanya. Klik tombol untuk melihat setiap skenario.</p>
+            </div>
+            <div class="flex flex-col lg:flex-row items-center gap-10">
+                <div class="w-full lg:w-1/2">
+                    <div class="chart-container">
+                        <canvas id="targetChart"></canvas>
+                    </div>
+                    <div id="target-explanation" class="mt-4 text-center text-gray-700 font-medium bg-gray-100 p-4 rounded-lg">
+                        Pilih skenario untuk melihat penjelasan.
+                    </div>
+                </div>
+                <div class="w-full lg:w-1/2 flex flex-col items-center space-y-4">
+                     <button data-scenario="1" class="scenario-btn w-full md:w-3/4 p-3 rounded-lg bg-white shadow-sm hover:bg-gray-50 font-semibold border-2 border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-200">Tidak Reliabel & Tidak Valid</button>
+                     <button data-scenario="2" class="scenario-btn w-full md:w-3/4 p-3 rounded-lg bg-white shadow-sm hover:bg-gray-50 font-semibold border-2 border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-200">Reliabel, Tidak Valid</button>
+                     <button data-scenario="3" class="scenario-btn w-full md:w-3/4 p-3 rounded-lg bg-white shadow-sm hover:bg-gray-50 font-semibold border-2 border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-200">Reliabel & Valid (Ideal)</button>
+                     <p class="text-sm text-gray-500 text-center italic">Catatan: Skenario "valid tapi tidak reliabel" secara teoritis tidak mungkin terjadi.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="prosedur" class="mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">Prosedur Uji Mutu Instrumen</h2>
+                <p class="mt-2 text-gray-600 max-w-2xl mx-auto">Mengembangkan instrumen yang baik memerlukan proses sistematis. Ikuti langkah-langkah berikut dan klik pada setiap tahap untuk melihat detailnya.</p>
+            </div>
+            <div class="space-y-4 max-w-2xl mx-auto">
+                <div class="step-item cursor-pointer" data-step="1">
+                    <div class="flex items-center">
+                        <div class="step-circle w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center font-bold text-gray-500 mr-4">1</div>
+                        <h4 class="font-semibold text-lg">Penyusunan Butir Pertanyaan</h4>
+                    </div>
+                    <div class="step-content pl-14 pt-2 text-gray-600">
+                        Merumuskan butir-butir pertanyaan berdasarkan definisi operasional dan landasan teori yang kuat untuk memastikan cakupan konsep yang tepat.
+                    </div>
+                </div>
+                <div class="step-item cursor-pointer" data-step="2">
+                    <div class="flex items-center">
+                        <div class="step-circle w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center font-bold text-gray-500 mr-4">2</div>
+                        <h4 class="font-semibold text-lg">Uji Coba Awal (Pilot Test)</h4>
+                    </div>
+                    <div class="step-content pl-14 pt-2 text-gray-600">
+                        Melakukan uji coba instrumen pada sampel kecil yang memiliki karakteristik serupa dengan sampel penelitian sebenarnya untuk identifikasi awal.
+                    </div>
+                </div>
+                <div class="step-item cursor-pointer" data-step="3">
+                    <div class="flex items-center">
+                        <div class="step-circle w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center font-bold text-gray-500 mr-4">3</div>
+                        <h4 class="font-semibold text-lg">Pengujian Validitas</h4>
+                    </div>
+                    <div class="step-content pl-14 pt-2 text-gray-600">
+                        Menguji validitas item melalui korelasi item-total, expert judgment, atau analisis faktor untuk memastikan setiap butir mengukur konstruk yang sama.
+                    </div>
+                </div>
+                <div class="step-item cursor-pointer" data-step="4">
+                    <div class="flex items-center">
+                        <div class="step-circle w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center font-bold text-gray-500 mr-4">4</div>
+                        <h4 class="font-semibold text-lg">Pengujian Reliabilitas</h4>
+                    </div>
+                    <div class="step-content pl-14 pt-2 text-gray-600">
+                        Menggunakan statistik seperti Cronbach’s Alpha untuk menentukan konsistensi instrumen secara keseluruhan setelah butir tidak valid dibuang.
+                    </div>
+                </div>
+                 <div class="step-item cursor-pointer" data-step="5">
+                    <div class="flex items-center">
+                        <div class="step-circle w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center font-bold text-gray-500 mr-4">5</div>
+                        <h4 class="font-semibold text-lg">Revisi dan Finalisasi</h4>
+                    </div>
+                    <div class="step-content pl-14 pt-2 text-gray-600">
+                        Melakukan revisi pada butir yang bermasalah dan mengulang proses uji hingga instrumen memenuhi standar yang ditetapkan.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="implikasi" class="bg-white rounded-lg p-10 shadow-lg">
+             <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold">Implikasi & Poin Kunci</h2>
+                <p class="mt-2 text-gray-600 max-w-2xl mx-auto">Memahami dan menerapkan uji reliabilitas dan validitas bukan sekadar formalitas, melainkan esensi dari integritas ilmiah.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="font-bold text-xl mb-3 text-[#3d405b]">Dampak Kualitas Rendah</h4>
+                    <p class="text-gray-600">Instrumen yang tidak reliabel atau valid akan menghasilkan data yang bias, error pengukuran tinggi, dan kesimpulan penelitian yang salah. Ini merusak kredibilitas peneliti dan membuang sumber daya.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xl mb-3 text-[#3d405b]">Contoh Kontekstual</h4>
+                    <p class="text-gray-600">Bahkan instrumen standar seperti <i>Perceived Stress Scale (PSS)</i> yang sudah teruji harus diuji ulang reliabilitas dan validitasnya saat diterapkan pada konteks budaya atau bahasa yang berbeda untuk memastikan kesesuaian.</p>
+                </div>
+            </div>
+             <div class="mt-12 border-t pt-8">
+                 <h4 class="font-bold text-xl mb-4 text-center">Saran & Rekomendasi</h4>
+                 <div class="grid md:grid-cols-3 gap-6 text-center">
+                     <div>
+                         <h5 class="font-semibold">Bagi Peneliti</h5>
+                         <p class="text-sm text-gray-600">Pahami dan alokasikan waktu untuk pengujian instrumen sejak awal.</p>
+                     </div>
+                     <div>
+                         <h5 class="font-semibold">Bagi Akademisi</h5>
+                         <p class="text-sm text-gray-600">Perkuat pelatihan metodologi pengembangan instrumen.</p>
+                     </div>
+                     <div>
+                         <h5 class="font-semibold">Riset Lanjutan</h5>
+                         <p class="text-sm text-gray-600">Kembangkan metode uji yang relevan untuk konteks lintas budaya.</p>
+                     </div>
+                 </div>
+             </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-gray-800 text-white mt-20">
+        <div class="container mx-auto px-6 py-4 text-center">
+            <p>&copy; 2025 Panduan Kualitas Instrumen. Sebuah visualisasi interaktif.</p>
+        </div>
+    </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                if(!mobileMenu.classList.contains('hidden')){
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        const btnReliabilitas = document.getElementById('btn-reliabilitas');
+        const btnValiditas = document.getElementById('btn-validitas');
+        const contentReliabilitas = document.getElementById('content-reliabilitas');
+        const contentValiditas = document.getElementById('content-validitas');
+
+        btnReliabilitas.addEventListener('click', () => {
+            contentReliabilitas.classList.remove('hidden');
+            contentValiditas.classList.add('hidden');
+            btnReliabilitas.classList.add('active');
+            btnValiditas.classList.remove('active');
+        });
+
+        btnValiditas.addEventListener('click', () => {
+            contentValiditas.classList.remove('hidden');
+            contentReliabilitas.classList.add('hidden');
+            btnValiditas.classList.add('active');
+            btnReliabilitas.classList.remove('active');
+        });
+        
+        const stepItems = document.querySelectorAll('.step-item');
+        stepItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const currentActive = document.querySelector('.step-item.active');
+                if (currentActive && currentActive !== item) {
+                    currentActive.classList.remove('active');
+                }
+                item.classList.toggle('active');
+            });
+        });
+
+        const ctx = document.getElementById('targetChart').getContext('2d');
+        let targetChart;
+
+        const scenarios = {
+            '1': {
+                label: "Tidak Reliabel & Tidak Valid",
+                explanation: "Hasil pengukuran tersebar acak dan jauh dari target. Pengukuran tidak konsisten dan tidak tepat sasaran.",
+                data: Array(15).fill(0).map(() => ({ x: Math.random() * 20 - 10, y: Math.random() * 20 - 10 })),
+                color: 'rgba(220, 38, 38, 0.7)'
+            },
+            '2': {
+                label: "Reliabel, Tidak Valid",
+                explanation: "Hasil pengukuran konsisten (mengelompok) tetapi jauh dari target. Instrumen mengukur sesuatu secara konsisten, tetapi bukan hal yang seharusnya diukur.",
+                data: Array(15).fill(0).map(() => ({ x: (Math.random() * 4 - 2) + 6, y: (Math.random() * 4 - 2) - 6 })),
+                color: 'rgba(234, 179, 8, 0.7)'
+            },
+            '3': {
+                label: "Reliabel & Valid (Ideal)",
+                explanation: "Hasil pengukuran konsisten (mengelompok) dan tepat pada target. Ini adalah kondisi ideal di mana instrumen andal dan akurat.",
+                data: Array(15).fill(0).map(() => ({ x: Math.random() * 4 - 2, y: Math.random() * 4 - 2 })),
+                color: 'rgba(34, 197, 94, 0.7)'
+            }
+        };
+
+        const targetExplanation = document.getElementById('target-explanation');
+        const scenarioBtns = document.querySelectorAll('.scenario-btn');
+
+        function createChart(data, color, label) {
+            if (targetChart) {
+                targetChart.destroy();
+            }
+            targetChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: label,
+                        data: data,
+                        backgroundColor: color,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    },
+                    scales: {
+                        x: { min: -10, max: 10, display: false },
+                        y: { min: -10, max: 10, display: false }
+                    },
+                    layout: {
+                        padding: 10
+                    },
+                    animation: {
+                        duration: 500,
+                        easing: 'easeInOutCubic'
+                    },
+                    elements: {
+                        point: {
+                           borderColor: 'rgba(0,0,0,0.1)'
+                        }
+                    },
+                     plugins: {
+                        beforeDraw: (chart) => {
+                            const ctx = chart.ctx;
+                            const chartArea = chart.chartArea;
+                            const centerX = (chartArea.left + chartArea.right) / 2;
+                            const centerY = (chartArea.top + chartArea.bottom) / 2;
+                            const maxRadius = Math.min(chartArea.width, chartArea.height) / 2;
+                            
+                            ctx.save();
+                            ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+                            ctx.lineWidth = 2;
+                            
+                            ctx.beginPath();
+                            ctx.arc(centerX, centerY, maxRadius * 0.8, 0, 2 * Math.PI);
+                            ctx.stroke();
+
+                            ctx.beginPath();
+                            ctx.arc(centerX, centerY, maxRadius * 0.5, 0, 2 * Math.PI);
+                            ctx.stroke();
+                            
+                            ctx.beginPath();
+                            ctx.arc(centerX, centerY, maxRadius * 0.2, 0, 2 * Math.PI);
+                            ctx.stroke();
+                            ctx.restore();
+                        }
+                    }
+                }
+            });
+        }
+        
+        scenarioBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const scenarioId = btn.dataset.scenario;
+                const scenario = scenarios[scenarioId];
+                createChart(scenario.data, scenario.color, scenario.label);
+                targetExplanation.textContent = scenario.explanation;
+                
+                scenarioBtns.forEach(b => b.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-50'));
+                btn.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50');
+            });
+        });
+        
+        createChart([], 'grey', 'Pilih skenario');
+    });
+</script>
+
+</body>
+</html>
