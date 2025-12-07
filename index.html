@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthRisk Analyzer - Analisis Risiko Kesehatan & Diet Personal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏥</text></svg>">
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-heartbeat"></i>
+                <span>HealthRisk Analyzer</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" data-tab="calculator"><i class="fas fa-calculator"></i> Kalkulator</a></li>
+                <li><a href="#" data-tab="results"><i class="fas fa-chart-bar"></i> Hasil</a></li>
+                <li><a href="#" data-tab="diet"><i class="fas fa-utensils"></i> Diet</a></li>
+                <li><a href="#" data-tab="tips"><i class="fas fa-lightbulb"></i> Tips</a></li>
+                <li><a href="#" data-tab="funfacts"><i class="fas fa-brain"></i> Fakta</a></li>
+            </ul>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Main Content Tabs -->
+    <main class="main-container">
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" data-tab="calculator">
+                <i class="fas fa-calculator"></i>
+                <span>Kalkulator</span>
+            </button>
+            <button class="tab-btn" data-tab="results">
+                <i class="fas fa-chart-bar"></i>
+                <span>Hasil</span>
+            </button>
+            <button class="tab-btn" data-tab="diet">
+                <i class="fas fa-utensils"></i>
+                <span>Jadwal Diet</span>
+            </button>
+            <button class="tab-btn" data-tab="tips">
+                <i class="fas fa-lightbulb"></i>
+                <span>Tips & Aktivitas</span>
+            </button>
+            <button class="tab-btn" data-tab="funfacts">
+                <i class="fas fa-brain"></i>
+                <span>Fakta Kesehatan</span>
+            </button>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="tab-contents">
+            <!-- Calculator Tab -->
+            <div class="tab-content active" id="calculator">
+                <div class="tab-header">
+                    <h2><i class="fas fa-user-md"></i> Kalkulator Risiko Kesehatan</h2>
+                    <p>Masukkan data Anda untuk analisis risiko kesehatan komprehensif</p>
+                </div>
+                
+                <div class="calculator-container">
+                    <!-- Progress Steps -->
+                    <div class="steps">
+                        <div class="step active">1</div>
+                        <div class="step">2</div>
+                        <div class="step">3</div>
+                        <div class="step">4</div>
+                    </div>
+                    
+                    <!-- Step 1: Personal Data -->
+                    <div class="step-content active" id="step1">
+                        <h3>Data Personal</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="age">Usia (tahun) *</label>
+                                <input type="number" id="age" min="1" max="120" value="30" required>
+                                <div class="error-message" id="age-error"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender">Jenis Kelamin *</label>
+                                <select id="gender" required>
+                                    <option value="male">Laki-laki</option>
+                                    <option value="female">Perempuan</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="weight">Berat Badan (kg) *</label>
+                                <input type="number" id="weight" min="20" max="300" value="65" step="0.1" required>
+                                <div class="error-message" id="weight-error"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="height">Tinggi Badan (cm) *</label>
+                                <input type="number" id="height" min="100" max="250" value="170" required>
+                                <div class="error-message" id="height-error"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="waist">Lingkar Pinggang (cm) *</label>
+                                <input type="number" id="waist" min="50" max="200" value="85" required>
+                                <small>Penting untuk penilaian risiko metabolik</small>
+                                <div class="error-message" id="waist-error"></div>
+                            </div>
+                        </div>
+                        <button class="btn-next" onclick="nextStep(2)">Lanjut <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    
+                    <!-- Step 2: Medical History -->
+                    <div class="step-content" id="step2">
+                        <h3>Riwayat Kesehatan & Keluarga</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="familyHistory">Riwayat Diabetes Keluarga *</label>
+                                <select id="familyHistory" required>
+                                    <option value="none">Tidak ada</option>
+                                    <option value="one">Salah satu orang tua</option>
+                                    <option value="both">Kedua orang tua</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="familyHistoryHT">Riwayat Hipertensi Keluarga *</label>
+                                <select id="familyHistoryHT" required>
+                                    <option value="no">Tidak ada</option>
+                                    <option value="yes">Ada</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="diabetes">Status Diabetes *</label>
+                                <select id="diabetes" required>
+                                    <option value="no">Tidak</option>
+                                    <option value="prediabetes">Pra-diabetes</option>
+                                    <option value="yes">Ya</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="hypertension">Status Hipertensi *</label>
+                                <select id="hypertension" required>
+                                    <option value="no">Tidak</option>
+                                    <option value="borderline">Batas normal-tinggi</option>
+                                    <option value="yes">Ya</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="glucose">Pernah Gula Darah Tinggi? *</label>
+                                <select id="glucose" required>
+                                    <option value="no">Tidak</option>
+                                    <option value="yes">Ya</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="cholesterol">Kolesterol Total (mg/dL)</label>
+                                <input type="number" id="cholesterol" max="400" value="200">
+                                <small>Kosongkan jika tidak tahu</small>
+                                <div class="error-message" id="cholesterol-error"></div>
+                            </div>
+                        </div>
+                        <div class="step-buttons">
+                            <button class="btn-prev" onclick="prevStep(1)"><i class="fas fa-arrow-left"></i> Kembali</button>
+                            <button class="btn-next" onclick="nextStep(3)">Lanjut <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Lifestyle -->
+                    <div class="step-content" id="step3">
+                        <h3>Gaya Hidup & Kebiasaan</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="activity">Level Aktivitas Fisik *</label>
+                                <select id="activity" required>
+                                    <option value="1.2">Sedentari (kerja duduk, sedikit olahraga)</option>
+                                    <option value="1.375">Ringan (olahraga 1-3 hari/minggu)</option>
+                                    <option value="1.55" selected>Sedang (olahraga 3-5 hari/minggu)</option>
+                                    <option value="1.725">Aktif (olahraga 6-7 hari/minggu)</option>
+                                    <option value="1.9">Sangat Aktif (olahraga intensif setiap hari)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sleep">Durasi Tidur Per Hari (jam) *</label>
+                                <input type="number" id="sleep" min="0" max="24" step="0.5" value="7" required>
+                                <div class="error-message" id="sleep-error"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="smoking">Kebiasaan Merokok *</label>
+                                <select id="smoking" required>
+                                    <option value="no">Tidak merokok</option>
+                                    <option value="yes">Merokok</option>
+                                    <option value="former">Mantan perokok</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="salt">Konsumsi Garam *</label>
+                                <select id="salt" required>
+                                    <option value="low">Rendah (makanan rendah garam)</option>
+                                    <option value="medium" selected>Sedang (makanan biasa)</option>
+                                    <option value="high">Tinggi (sering makanan asin)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="stress">Tingkat Stres *</label>
+                                <select id="stress" required>
+                                    <option value="low">Rendah</option>
+                                    <option value="medium" selected>Sedang</option>
+                                    <option value="high">Tinggi</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="alcohol">Konsumsi Alkohol *</label>
+                                <select id="alcohol" required>
+                                    <option value="none">Tidak minum</option>
+                                    <option value="light">Ringan (<1 gelas/hari)</option>
+                                    <option value="moderate">Sedang (1-2 gelas/hari)</option>
+                                    <option value="heavy">Berat (>2 gelas/hari)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="step-buttons">
+                            <button class="btn-prev" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Kembali</button>
+                            <button class="btn-next" onclick="nextStep(4)">Lanjut <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4: Additional Info -->
+                    <div class="step-content" id="step4">
+                        <h3>Informasi Tambahan</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="systolicBP">Tekanan Darah Sistolik (mmHg) *</label>
+                                <input type="number" id="systolicBP" min="80" max="250" value="120" required>
+                                <small>Normal: <120, Prehipertensi: 120-139, Hipertensi: ≥140</small>
+                                <div class="error-message" id="systolicBP-error"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="hdl">HDL Kolesterol (mg/dL)</label>
+                                <input type="number" id="hdl" min="20" max="100" value="50">
+                                <small>Kolesterol "baik"</small>
+                                <div class="error-message" id="hdl-error"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="nsaidUse">Penggunaan Obat NSAID *</label>
+                                <select id="nsaidUse" required>
+                                    <option value="none">Tidak pernah</option>
+                                    <option value="occasional">Kadang-kadang</option>
+                                    <option value="regular">Rutin</option>
+                                </select>
+                                <small>Obat anti-inflamasi nonsteroid seperti ibuprofen</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="dietaryPreference">Preferensi Makanan *</label>
+                                <select id="dietaryPreference" required>
+                                    <option value="mixed">Campuran (tidak ada pantangan)</option>
+                                    <option value="vegetarian">Vegetarian</option>
+                                    <option value="lowCarb">Rendah Karbohidrat</option>
+                                    <option value="lowFat">Rendah Lemak</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="allergies">Alergi Makanan</label>
+                                <input type="text" id="allergies" placeholder="Misal: seafood, kacang, susu">
+                            </div>
+                            <div class="form-group">
+                                <label for="medications">Obat yang Dikonsumsi</label>
+                                <input type="text" id="medications" placeholder="Misal: obat diabetes, hipertensi">
+                            </div>
+                        </div>
+                        <div class="step-buttons">
+                            <button class="btn-prev" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> Kembali</button>
+                            <button class="btn-primary" onclick="calculateHealthRisk()">
+                                <i class="fas fa-calculator"></i> Analisis Risiko Kesehatan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Tab -->
+            <div class="tab-content" id="results">
+                <div class="tab-header">
+                    <h2><i class="fas fa-chart-pie"></i> Hasil Analisis Kesehatan</h2>
+                    <p>Hasil perhitungan berdasarkan data yang Anda masukkan</p>
+                </div>
+                
+                <div class="results-container">
+                    <!-- Basic Metrics -->
+                    <div class="results-card">
+                        <h3><i class="fas fa-user-circle"></i> Profil Metabolik</h3>
+                        <div class="metrics-grid">
+                            <div class="metric">
+                                <div class="metric-label">BMI</div>
+                                <div class="metric-value" id="bmiValue">-</div>
+                                <div class="metric-category" id="bmiCategory">-</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">BMR</div>
+                                <div class="metric-value" id="bmrValue">-</div>
+                                <div class="metric-category">kkal/hari</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">TDEE</div>
+                                <div class="metric-value" id="teeValue">-</div>
+                                <div class="metric-category">kkal/hari</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Protein</div>
+                                <div class="metric-value" id="proteinValue">-</div>
+                                <div class="metric-category">gram/hari</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Risk Assessment -->
+                    <div class="results-card">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Penilaian Risiko Penyakit</h3>
+                        <div class="risks-container">
+                            <div class="risk-item" id="riskDiabetes">
+                                <div class="risk-header">
+                                    <span class="risk-title">Diabetes</span>
+                                    <span class="risk-level low-risk">Rendah</span>
+                                </div>
+                                <div class="risk-bar">
+                                    <div class="risk-fill low-risk" style="width: 30%"></div>
+                                </div>
+                                <div class="risk-details">Berdasarkan skor FINDRISC</div>
+                            </div>
+                            <div class="risk-item" id="riskCardio">
+                                <div class="risk-header">
+                                    <span class="risk-title">Penyakit Jantung</span>
+                                    <span class="risk-level low-risk">Rendah</span>
+                                </div>
+                                <div class="risk-bar">
+                                    <div class="risk-fill low-risk" style="width: 30%"></div>
+                                </div>
+                                <div class="risk-details">Berdasarkan faktor risiko ASCVD</div>
+                            </div>
+                            <div class="risk-item" id="riskHypertension">
+                                <div class="risk-header">
+                                    <span class="risk-title">Hipertensi</span>
+                                    <span class="risk-level low-risk">Rendah</span>
+                                </div>
+                                <div class="risk-bar">
+                                    <div class="risk-fill low-risk" style="width: 30%"></div>
+                                </div>
+                                <div class="risk-details">Berdasarkan pola diet dan gaya hidup</div>
+                            </div>
+                            <div class="risk-item" id="riskKidney">
+                                <div class="risk-header">
+                                    <span class="risk-title">Penyakit Ginjal</span>
+                                    <span class="risk-level low-risk">Rendah</span>
+                                </div>
+                                <div class="risk-bar">
+                                    <div class="risk-fill low-risk" style="width: 30%"></div>
+                                </div>
+                                <div class="risk-details">Berdasarkan faktor risiko KDIGO</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recommendations -->
+                    <div class="results-card">
+                        <h3><i class="fas fa-clipboard-check"></i> Rekomendasi Utama</h3>
+                        <div class="recommendations" id="recommendationsList">
+                            <div class="empty-state">
+                                <i class="fas fa-clipboard-list"></i>
+                                <p>Belum ada data analisis. Silakan lengkapi kalkulator terlebih dahulu.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Scientific References -->
+                    <div class="results-card">
+                        <h3><i class="fas fa-book"></i> Basis Ilmiah</h3>
+                        <ul class="references-list">
+                            <li><i class="fas fa-check-circle"></i> <strong>BMR:</strong> Mifflin-St Jeor Equation (J Am Diet Assoc. 2005)</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Diabetes Risk:</strong> FINDRISC Score (Diabetes Care. 2003)</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Cardiovascular Risk:</strong> ASCVD Risk Estimator (J Am Coll Cardiol. 2014)</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Nutrition:</strong> WHO & USDA Dietary Guidelines 2020-2025</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Hypertension:</strong> JNC 8 Guidelines for Blood Pressure Management</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diet Schedule Tab -->
+            <div class="tab-content" id="diet">
+                <div class="tab-header">
+                    <h2><i class="fas fa-calendar-alt"></i> Jadwal Diet 7 Hari</h2>
+                    <p>Personalized meal plan berdasarkan kebutuhan nutrisi dan preferensi Anda</p>
+                </div>
+                
+                <div class="diet-controls">
+                    <div class="diet-options">
+                        <button class="diet-filter active" data-type="all">Semua Makanan</button>
+                        <button class="diet-filter" data-type="traditional">Tradisional</button>
+                        <button class="diet-filter" data-type="modern">Modern</button>
+                        <button class="diet-filter" data-type="global">Global</button>
+                        <button class="diet-filter" data-type="vegetarian">Vegetarian</button>
+                    </div>
+                    
+                    <button class="btn-secondary" onclick="printDietPlan()">
+                        <i class="fas fa-print"></i> Cetak Jadwal
+                    </button>
+                </div>
+                
+                <div class="diet-container">
+                    <div class="days-tabs" id="daysTabs">
+                        <!-- Generated by JavaScript -->
+                    </div>
+                    
+                    <div class="meals-container" id="mealsContainer">
+                        <div class="empty-state">
+                            <i class="fas fa-utensils"></i>
+                            <p>Jadwal diet akan muncul setelah Anda melakukan analisis risiko kesehatan.</p>
+                            <button class="btn-primary" onclick="switchTab('calculator')">
+                                <i class="fas fa-calculator"></i> Mulai Analisis
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="shopping-list">
+                        <h3><i class="fas fa-shopping-cart"></i> Daftar Belanja Mingguan</h3>
+                        <div class="shopping-items" id="shoppingList">
+                            <div class="empty-state">
+                                <i class="fas fa-shopping-basket"></i>
+                                <p>Daftar belanja akan muncul setelah Anda memiliki jadwal diet.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips & Activities Tab -->
+            <div class="tab-content" id="tips">
+                <div class="tab-header">
+                    <h2><i class="fas fa-running"></i> Tips & Rekomendasi Aktivitas</h2>
+                    <p>Personalized berdasarkan profil risiko dan preferensi Anda</p>
+                </div>
+                
+                <div class="tips-container">
+                    <div class="tips-card">
+                        <div class="tips-icon">
+                            <i class="fas fa-apple-alt"></i>
+                        </div>
+                        <h3>Tips Nutrisi</h3>
+                        <div class="tips-content" id="nutritionTips">
+                            <div class="empty-state">
+                                <i class="fas fa-info-circle"></i>
+                                <p>Tips nutrisi akan muncul setelah analisis kesehatan.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-card">
+                        <div class="tips-icon">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <h3>Rekomendasi Olahraga</h3>
+                        <div class="tips-content" id="exerciseTips">
+                            <div class="empty-state">
+                                <i class="fas fa-info-circle"></i>
+                                <p>Rekomendasi olahraga akan muncul setelah analisis kesehatan.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-card">
+                        <div class="tips-icon">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                        <h3>Kesehatan Mental & Tidur</h3>
+                        <div class="tips-content" id="mentalHealthTips">
+                            <div class="empty-state">
+                                <i class="fas fa-info-circle"></i>
+                                <p>Tips kesehatan mental akan muncul setelah analisis kesehatan.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Weekly Activity Plan -->
+                <div class="activity-plan">
+                    <h3><i class="fas fa-calendar-check"></i> Rencana Aktivitas Mingguan</h3>
+                    <div class="activity-table" id="activityTable">
+                        <div class="empty-state">
+                            <i class="fas fa-calendar"></i>
+                            <p>Rencana aktivitas akan muncul setelah analisis kesehatan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fun Facts Tab -->
+            <div class="tab-content" id="funfacts">
+                <div class="tab-header">
+                    <h2><i class="fas fa-brain"></i> Fun Facts & Edukasi Gizi</h2>
+                    <p>Fakta menarik tentang kesehatan yang didukung penelitian ilmiah</p>
+                </div>
+                
+                <div class="funfacts-container">
+                    <div class="funfact-carousel">
+                        <div class="funfact active" id="currentFunFact">
+                            <!-- Fun facts will be loaded here -->
+                        </div>
+                        <div class="carousel-controls">
+                            <button class="carousel-btn" onclick="prevFunFact()">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <div class="carousel-dots" id="funfactDots"></div>
+                            <button class="carousel-btn" onclick="nextFunFact()">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="nutrition-quiz">
+                        <h3><i class="fas fa-question-circle"></i> Kuis Pengetahuan Gizi</h3>
+                        <div class="quiz-question">
+                            <p id="quizQuestion">Manakah yang mengandung lebih banyak vitamin C?</p>
+                            <div class="quiz-options">
+                                <button class="quiz-option" data-correct="false">Jeruk</button>
+                                <button class="quiz-option" data-correct="false">Brokoli</button>
+                                <button class="quiz-option" data-correct="true">Paprika Merah</button>
+                                <button class="quiz-option" data-correct="false">Stroberi</button>
+                            </div>
+                            <div class="quiz-result" id="quizResult"></div>
+                            <button class="btn-small" onclick="nextQuizQuestion()">Pertanyaan Berikutnya</button>
+                        </div>
+                    </div>
+                    
+                    <div class="myth-busters">
+                        <h3><i class="fas fa-virus-slash"></i> Mitos vs Fakta</h3>
+                        <div class="myth-list" id="mythList">
+                            <!-- Generated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>HealthRisk Analyzer</h3>
+                <p>Aplikasi analisis risiko kesehatan berbasis penelitian medis terbaru. Hasil ini untuk edukasi, bukan diagnosis medis.</p>
+                <div class="disclaimer">
+                    <strong>Disclaimer:</strong> Konsultasikan dengan dokter atau ahli gizi sebelum mengubah pola diet atau olahraga.
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Referensi Ilmiah</h3>
+                <ul>
+                    <li>WHO Guidelines 2023</li>
+                    <li>American Diabetes Association</li>
+                    <li>American Heart Association</li>
+                    <li>National Kidney Foundation</li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Kontak</h3>
+                <p><i class="fas fa-envelope"></i> info@healthriskanalyzer.com</p>
+                <p><i class="fas fa-phone"></i> (021) 1234-5678</p>
+                <div class="social-icons">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 HealthRisk Analyzer. Dibuat dengan <i class="fas fa-heart"></i> untuk kesehatan masyarakat Indonesia.</p>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <i class="fas fa-heartbeat fa-spin"></i>
+            <p>Menganalisis data kesehatan Anda...</p>
+            <div class="loading-progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-header success">
+                <i class="fas fa-check-circle"></i>
+                <h3>Analisis Berhasil!</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Analisis risiko kesehatan Anda telah selesai. Hasil dapat dilihat di tab "Hasil".</p>
+                <p>Jadwal diet, tips kesehatan, dan rekomendasi aktivitas telah disesuaikan dengan profil Anda.</p>
+                <div class="modal-actions">
+                    <button class="btn-primary" onclick="switchTab('results')">Lihat Hasil</button>
+                    <button class="btn-secondary" onclick="closeModal()">Tetap di Tab Ini</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="src/main.js"></script>
+</body>
+</html>
