@@ -11,22 +11,7 @@
     "Mawar merah untuk hatimu",
     "Hadiah kecil, makna besar",
     "Beruang yang selalu memeluk",
-    "Kue cokelat, manis seperti senyummu",
-    "luplup",
-    "Cokelat dan cinta, paduan manis",
-    "Mawar merah untuk hatimu",
-    "Hadiah kecil, makna besar",
-    "Beruang yang selalu memeluk",
-    "Kue cokelat, manis seperti senyummu",
-    "luplup",
-    "Cokelat dan cinta, paduan manis",
-    "Mawar merah untuk hatimu",
-    "Hadiah kecil, makna besar",
-    "Beruang yang selalu memeluk",
-    "Kue cokelat, manis seperti senyummu",
-    "luplup",
-    "Cokelat dan cinta, paduan manis",
-    "Mawar merah untuk hatimu",
+    "Kue cokelat, manis seperti senyummu"
   ];
 
   function showSlide(index) {
