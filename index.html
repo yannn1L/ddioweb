@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Valentine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="music-control" id="musicToggle">
+    <span class="icon">🎵</span>
+    <span id="musicStatus">Musik: mati</span>
+  </div>
+
+  <div class="card">
+    <div class="hero-grid">
+      <div class="greeting">
+        <h1>Selamat<br>Hari Valentine Bubub 🤎</h1>
+        <p>Untuk hari yang manis, biarkan cinta berbicara — seperti sepotong cokelat yang meleleh di hati.</p>
+        <div class="detail">
+          <span>🍫 chocolate</span>
+          <span>🌹 roses</span>
+          <span>💌 warmth</span>
+        </div>
+      </div>
+      <div class="visual" id="swipeArea">
+        <div class="slideshow" id="slideshow">
+          <!-- Gambar placeholder (bisa diganti dengan gambar asli) -->
+          <img class="slide" src="/p1.jpg" alt="cokelat dan bunga">
+          <img class="slide" src="/p2.jpg" alt="mawar merah">
+          <img class="slide" src="/p3.jpg" alt="hadiah cokelat">
+          <img class="slide" src="/p4.jpg" alt="boneka beruang">
+          <img class="slide" src="/p5.jpg" alt="kue cokelat">
+          <img class="slide" src="/p6.png" alt="cokelat dan bunga">
+          <img class="slide" src="/p7.png" alt="mawar merah">
+          <img class="slide" src="/p8.png" alt="hadiah cokelat">
+          <img class="slide" src="/p9.png" alt="boneka beruang">
+          <img class="slide" src="/p10.png" alt="kue cokelat">
+          <img class="slide" src="/p11.png" alt="luplup">
+          <img class="slide" src="/p12.png" alt="mawar merah">
+          <img class="slide" src="/p13.png" alt="hadiah cokelat">
+          <img class="slide" src="/p14.png" alt="boneka beruang">
+          <img class="slide" src="/p15.png" alt="kue cokelat">
+          <img class="slide" src="/p16.png" alt="cokelat dan bunga">
+          <img class="slide" src="/p17.png" alt="mawar merah">
+          <img class="slide" src="/p18.png" alt="hadiah cokelat">
+          <img class="slide" src="/p19.png" alt="boneka beruang">
+          <img class="slide" src="/p20.png" alt="kue cokelat">
+        </div>
+        <div class="caption" id="caption">Cokelat dan cinta, paduan manis</div>
+        <div class="dots" id="dotsContainer"></div>
+      </div>
+    </div>
+    <div class="footer-note">
+      <span>Dengan Sepenuh Hati 🤎</span>
+    </div>
+  </div>
+
+  <!-- Container untuk tiga kucing -->
+  <div class="cats-container" id="catsContainer"></div>
+
+  <!-- Audio -->
+  <audio id="meowSound" preload="auto">
+    <source src="/meaw.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="growlSound" preload="auto">
+    <source src="/purrr.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="bg-music" loop>
+    <source src="/bg_sound.mp3" type="audio/mpeg">
+  </audio>
+
+  <script src="app.js"></script>
+</body>
+</html>
