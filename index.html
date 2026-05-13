@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem GDS Professional - Enterprise Build</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-slate-900 font-sans p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto space-y-6">
+        <header class="bg-white p-8 rounded-3xl shadow-xl border border-white flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H14" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-black text-slate-800 tracking-tight">Data Central GDS</h1>
+                    <p class="text-slate-400 font-medium">Sistem Pelaporan Medis Terstandarisasi</p>
+                </div>
+            </div>
+            
+            <div class="flex flex-wrap items-center gap-3">
+                <button id="btnClearData" class="hidden bg-red-100 hover:bg-red-200 text-red-600 px-6 py-4 rounded-2xl font-bold transition-all shadow-sm active:scale-95 flex items-center gap-2">
+                    Bersihkan Data
+                </button>
+                
+                <button id="btnExportJSON" class="hidden bg-slate-800 hover:bg-slate-900 text-white px-6 py-4 rounded-2xl font-bold transition-all shadow-sm active:scale-95 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                    Raw Data (JSON)
+                </button>
+
+                <button id="btnExport" class="hidden bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg hover:shadow-indigo-200 active:scale-95 flex items-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed">
+                    <span id="exportText" class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                        Laporan (A4)
+                    </span>
+                </button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-4 bg-white p-8 rounded-3xl shadow-lg border border-slate-200 h-fit">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-slate-800 uppercase tracking-widest text-sm">Registrasi Antrean</h2>
+                    <span class="text-[10px] text-slate-300 font-mono" title="Tekan Ctrl+Alt+M untuk Mock Data">dev_mode_ready</span>
+                </div>
+                <form id="formGDS" class="space-y-4">
+                    <div class="space-y-2">
+                        <label class="text-sm font-bold text-slate-500 ml-1">Nama Lengkap Pasien</label>
+                        <input type="text" id="inputNama" required autocomplete="off" maxlength="100" class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-500 outline-none transition-all" placeholder="Contoh: Budi Santoso">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-slate-500 ml-1">Umur (Thn)</label>
+                            <input type="number" id="inputUmur" required min="1" max="150" class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-500 outline-none transition-all" placeholder="45">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-slate-500 ml-1">Tekanan Darah</label>
+                            <input type="text" id="inputTD" required maxlength="10" pattern="\d{2,3}\/\d{2,3}" title="Format: Sistolik/Diastolik (misal 120/80)" class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-500 outline-none transition-all" placeholder="120/80">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-slate-500 ml-1">Tinggi Badan (cm)</label>
+                            <input type="number" id="inputTB" required min="30" max="250" step="0.1" class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-500 outline-none transition-all" placeholder="165">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-slate-500 ml-1">Berat Badan (kg)</label>
+                            <input type="number" id="inputBB" required min="2" max="300" step="0.1" class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-500 outline-none transition-all" placeholder="65">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-slate-500 ml-1">Lingkar Perut (cm)</label>
+                            <input type="number" id="inputLP" required min="20" max="250" step="0.1" class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-500 outline-none transition-all" placeholder="90">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-slate-500 ml-1">GDS (mg/dL)</label>
+                            <input type="number" id="inputGDS" required min="10" max="1000" class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-500 outline-none transition-all" placeholder="120">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-slate-900 hover:bg-black text-white font-bold py-4 mt-2 rounded-2xl transition-all shadow-xl shadow-slate-200">
+                        Tambahkan Antrean
+                    </button>
+                </form>
+            </div>
+
+            <div class="lg:col-span-8 bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden h-fit">
+                <div class="p-8 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-slate-800">Antrean Pemeriksaan Real-time</h2>
+                    <span id="counter" class="bg-indigo-100 text-indigo-700 px-4 py-1 rounded-full text-xs font-black">0 DATA</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-400 text-[10px] font-black uppercase tracking-[0.1em] border-b border-slate-100">
+                                <th class="py-4 px-6 text-left">Pasien & Umur</th>
+                                <th class="py-4 px-4 text-center">Fisik (TB/BB/LP)</th>
+                                <th class="py-4 px-4 text-center">Tensi (mmHg)</th>
+                                <th class="py-4 px-6 text-center">GDS (mg/dL)</th>
+                                <th class="py-4 px-6 text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody" class="divide-y divide-slate-50 font-semibold text-sm">
+                            <tr><td colspan="5" class="py-20 text-center text-slate-300 italic">Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import {
+            Document, Packer, Paragraph, Table, TableRow, TableCell, TextRun,
+            AlignmentType, WidthType, BorderStyle, VerticalAlign, TableLayoutType
+        } from 'https://esm.sh/docx@8.5.0';
+        
+        const escapeHTML = (str) => {
+            if (typeof str !== 'string') return str;
+            return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag]));
+        };
+
+        const STORAGE_KEY = 'GDS_DATA_ENTERPRISE_V2';
+        let dataPasien = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+        const saveData = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(dataPasien));
+
+        const getIndikator = (gds) => {
+            if (gds < 70) return { color: 'text-red-700 bg-red-100', docColor: 'FF0000' };
+            if (gds < 140) return { color: 'text-emerald-700 bg-emerald-100', docColor: '008000' };
+            if (gds < 200) return { color: 'text-amber-700 bg-amber-100', docColor: 'D97706' };
+            return { color: 'text-purple-700 bg-purple-100', docColor: '800080' };
+        };
+
+        const render = () => {
+            const tableBody = document.getElementById('tableBody');
+            const btnExport = document.getElementById('btnExport');
+            const btnExportJSON = document.getElementById('btnExportJSON');
+            const btnClearData = document.getElementById('btnClearData');
+            const counter = document.getElementById('counter');
+            
+            tableBody.innerHTML = '';
+            counter.innerText = `${dataPasien.length} DATA`;
+
+            if (dataPasien.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="5" class="py-20 text-center text-slate-300 italic">Belum ada antrean data...</td></tr>`;
+                btnExport.classList.add('hidden');
+                btnExportJSON.classList.add('hidden');
+                btnClearData.classList.add('hidden');
+                return;
+            }
+
+            btnExport.classList.remove('hidden');
+            btnExportJSON.classList.remove('hidden');
+            btnClearData.classList.remove('hidden');
+
+            dataPasien.forEach((p, i) => {
+                const ind = getIndikator(p.gds);
+                const safeNama = escapeHTML(p.nama);
+                const safeTD = escapeHTML(p.td);
+
+                tableBody.innerHTML += `
+                    <tr class="hover:bg-slate-50/50 transition-colors ${p.isMock ? 'bg-yellow-50/30' : ''}">
+                        <td class="py-4 px-6 font-bold text-slate-700 uppercase">
+                            ${safeNama} 
+                            ${p.isMock ? '<span class="ml-2 text-[9px] bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded-md">TEST</span>' : ''}
+                            <span class="block text-[10px] text-slate-400 font-normal capitalize">${p.umur} Tahun</span>
+                        </td>
+                        <td class="py-4 px-4 text-center text-slate-500 text-xs">${p.tb}cm / ${p.bb}kg / ${p.lp}cm</td>
+                        <td class="py-4 px-4 text-center text-slate-600 font-bold">${safeTD}</td>
+                        <td class="py-4 px-6 text-center">
+                            <span class="px-4 py-2 rounded-xl text-sm font-black ${ind.color}">${p.gds}</span>
+                        </td>
+                        <td class="py-4 px-6 text-right">
+                            <button data-index="${i}" class="btn-delete w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-300 hover:bg-red-50 hover:text-red-500 transition-all ml-auto">✕</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        };
+
+        // --- FITUR BARU 1: RAHASIA / DEV MODE MOCK DATA (Ctrl + Alt + M) ---
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'm') {
+                e.preventDefault(); // Mencegah aksi bawaan browser
+                
+                const fakeNames = ["Ani Hidayat", "Budi Prakoso", "Citra Kirana", "Deni Saputra", "Eka Putri", "Fahmi Idris", "Gita Savitri"];
+                const name = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+                
+                // Generasi nilai medis random yang realistis
+                const sys = Math.floor(Math.random() * (160 - 90 + 1)) + 90;
+                const dia = Math.floor(Math.random() * (100 - 60 + 1)) + 60;
+                
+                dataPasien.push({
+                    nama: name,
+                    umur: Math.floor(Math.random() * 50) + 20, // 20 - 70 tahun
+                    tb: parseFloat((Math.random() * (180 - 150) + 150).toFixed(1)), // 150 - 180 cm
+                    bb: parseFloat((Math.random() * (90 - 50) + 50).toFixed(1)), // 50 - 90 kg
+                    td: `${sys}/${dia}`,
+                    lp: parseFloat((Math.random() * (110 - 70) + 70).toFixed(1)), // 70 - 110 cm
+                    gds: Math.floor(Math.random() * 250) + 60, // 60 - 310 mg/dL
+                    isMock: true // Flag khusus untuk membedakan data asli dan testing
+                });
+                
+                saveData();
+                render();
+                
+                // Efek visual kecil saat tombol ditekan
+                const header = document.querySelector('header');
+                header.classList.add('bg-yellow-50');
+                setTimeout(() => header.classList.remove('bg-yellow-50'), 200);
+            }
+        });
+
+        // --- FITUR BARU 2: JSON EXPORTER ---
+        document.getElementById('btnExportJSON').addEventListener('click', () => {
+            // Bersihkan flag internal seperti 'isMock' jika ada sebelum di-export (opsional, tapi baik untuk kebersihan data)
+            const cleanData = dataPasien.map(({isMock, ...rest}) => rest);
+            
+            const dataStr = JSON.stringify(cleanData, null, 2); // Format JSON rapi dengan indentasi
+            const blob = new Blob([dataStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Raw_Data_Klinis_${new Date().getTime()}.json`;
+            a.click();
+            
+            URL.revokeObjectURL(url);
+        });
+
+        document.getElementById('tableBody').addEventListener('click', (e) => {
+            const deleteBtn = e.target.closest('.btn-delete');
+            if (deleteBtn) {
+                const index = parseInt(deleteBtn.getAttribute('data-index'), 10);
+                dataPasien.splice(index, 1);
+                saveData();
+                render();
+            }
+        });
+
+        document.getElementById('btnClearData').addEventListener('click', () => {
+            if(confirm('Apakah Anda yakin ingin membersihkan semua data saat ini? Aksi ini permanen.')) {
+                dataPasien = [];
+                saveData();
+                render();
+            }
+        });
+
+        document.getElementById('formGDS').addEventListener('submit', (e) => {
+            e.preventDefault();
+            dataPasien.push({
+                nama: document.getElementById('inputNama').value.trim(),
+                umur: parseInt(document.getElementById('inputUmur').value, 10),
+                tb: parseFloat(document.getElementById('inputTB').value),
+                bb: parseFloat(document.getElementById('inputBB').value),
+                td: document.getElementById('inputTD').value.trim(),
+                lp: parseFloat(document.getElementById('inputLP').value),
+                gds: parseInt(document.getElementById('inputGDS').value, 10)
+            });
+            saveData();
+            e.target.reset();
+            document.getElementById('inputNama').focus();
+            render();
+        });
+
+        // (Fungsi Export Word docx Tetap Tidak Berubah)
+        document.getElementById('btnExport').addEventListener('click', async () => {
+            const btnExport = document.getElementById('btnExport');
+            const exportText = document.getElementById('exportText');
+            btnExport.disabled = true;
+            exportText.innerHTML = 'Memproses...';
+
+            try {
+                const createCell = (text, isHeader = false, align = AlignmentType.CENTER, textColor = "000000", isBold = false) => {
+                    return new TableCell({
+                        children: [new Paragraph({
+                            children: [new TextRun({ text: text.toString().toUpperCase(), bold: isHeader || isBold, size: isHeader ? 20 : 18, font: "Times New Roman", color: isHeader ? "FFFFFF" : textColor })],
+                            alignment: align,
+                        })],
+                        shading: isHeader ? { fill: "334155" } : undefined,
+                        verticalAlign: VerticalAlign.CENTER,
+                        margins: { top: 120, bottom: 120, left: 120, right: 120 },
+                    });
+                };
+
+                const tableRows = [new TableRow({
+                    tableHeader: true,
+                    children: [
+                        createCell("No", true), createCell("Nama", true, AlignmentType.LEFT), createCell("Umur", true),
+                        createCell("TB(cm)", true), createCell("BB(kg)", true), createCell("TTD", true), createCell("LP(cm)", true), createCell("GDS", true)
+                    ]
+                })];
+
+                dataPasien.forEach((p, i) => {
+                    const ind = getIndikator(p.gds);
+                    tableRows.push(new TableRow({
+                        children: [
+                            createCell((i + 1).toString(), false), createCell(p.nama, false, AlignmentType.LEFT), createCell(p.umur.toString(), false),
+                            createCell(p.tb.toString(), false), createCell(p.bb.toString(), false), createCell(p.td.toString(), false),
+                            createCell(p.lp.toString(), false), createCell(p.gds.toString(), false, AlignmentType.CENTER, ind.docColor, true) 
+                        ]
+                    }));
+                });
+
+                const doc = new Document({
+                    sections: [{
+                        properties: { page: { size: { width: 11906, height: 16838 }, margin: { top: 1440, right: 1000, bottom: 1440, left: 1000 } } },
+                        children: [
+                            new Paragraph({ children: [new TextRun({ text: "Poltekkes Kesehatan Kemenkes Manado", bold: true, size: 32, font: "Times New Roman" })], alignment: AlignmentType.CENTER }),
+                            new Paragraph({ children: [new TextRun({ text: "Jl. R.W. Mongisidi, Malalayang Dua, Kec. Malalayang, Kota Manado, Sulawesi Utara, 95263", size: 22, font: "Times New Roman", italic: true })], alignment: AlignmentType.CENTER, spacing: { before: 80, after: 150 } }),
+                            new Paragraph({ border: { bottom: { style: BorderStyle.DOUBLE, size: 24, color: "000000", space: 1 } }, spacing: { after: 400 } }),
+                            new Paragraph({ children: [new TextRun({ text: "HASIL PEMERIKSAAN GDS & ANTROPOMETRI", bold: true, size: 24, font: "Times New Roman", underline: {} })], alignment: AlignmentType.CENTER, spacing: { after: 300 } }),
+                            new Table({
+                                width: { size: 9500, type: WidthType.DXA }, layout: TableLayoutType.FIXED, columnWidths: [700, 2500, 800, 1000, 1000, 1200, 1000, 1300], 
+                                borders: {
+                                    top: { style: BorderStyle.SINGLE, size: 2, color: "000000" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
+                                    left: { style: BorderStyle.SINGLE, size: 2, color: "000000" }, right: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
+                                    insideHorizontal: { style: BorderStyle.SINGLE, size: 2, color: "000000" }, insideVertical: { style: BorderStyle.SINGLE, size: 2, color: "000000" },
+                                },
+                                rows: tableRows,
+                            }),
+                            new Paragraph({ children: [new TextRun({ text: `\nLaporan ini dicetak pada: ${new Date().toLocaleString('id-ID')}`, size: 20, font: "Times New Roman" })], alignment: AlignmentType.LEFT, spacing: { before: 500 } }),
+                            new Paragraph({ children: [new TextRun({ text: "\nPetugas,\n\n\n\n( ____________________ )", bold: true, size: 20, font: "Times New Roman" })], alignment: AlignmentType.RIGHT })
+                        ]
+                    }]
+                });
+
+                const blob = await Packer.toBlob(doc);
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Laporan_Klinis_GDS_${new Date().getTime()}.docx`;
+                a.click();
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error("Critical Error:", error);
+                alert("Gagal mengunduh laporan. Silakan periksa konsol browser.");
+            } finally {
+                btnExport.disabled = false;
+                exportText.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>Laporan (A4)`;
+            }
+        });
+
+        render();
+    </script>
+</body>
+</html>
